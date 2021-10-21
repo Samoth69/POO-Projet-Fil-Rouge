@@ -62,7 +62,6 @@ public class View extends BorderPane {
 	
 	public void actionOnGui(InputViewData<Integer> dataToRefreshView) {
 		((Board)this.board).actionOnGui(dataToRefreshView);
-		
 	}
 	
 	//////////////////////////////////////////////////////////////////////////

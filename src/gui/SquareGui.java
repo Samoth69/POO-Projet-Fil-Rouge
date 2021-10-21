@@ -1,5 +1,6 @@
 package gui;
 
+import nutsAndBolts.PieceSquareColor;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -11,52 +12,37 @@ import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import nutsAndBolts.PieceSquareColor;
 
 /**
  * @author francoiseperrin
- * <p>
+ * 
  * Classe d'affichage des carrés du damier
  * leur couleur est initialisé par les couleurs par défaut du jeu
+ *
  */
 class SquareGui extends BorderPane implements CheckersSquareGui {
 
-    private final int col, ligne;
-    private final PieceSquareColor squareColor;
+	private final PieceSquareColor color;
 
-    public SquareGui(int col, int ligne, PieceSquareColor pieceColor) {
-        super();
+	public SquareGui(PieceSquareColor color) {
+		super();
+		this.color = color;
 
-        this.col = col;
-        this.ligne = ligne;
-        this.squareColor = pieceColor;
+		// la couleur est définie par les valeurs par défaut de configuration
+		Color GioConfcolor = PieceSquareColor.BLACK.equals(color) ? GuiConfig.CASEBLACK : GuiConfig.CASEWHITE;
+		this.setBackground(new Background(new BackgroundFill(GioConfcolor, CornerRadii.EMPTY, Insets.EMPTY)));
+		this.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+	}
 
-        // la couleur est définie par les valeurs par défaut de configuration
-        Color color = PieceSquareColor.BLACK.equals(squareColor) ? GuiConfig.CASEBLACK : GuiConfig.CASEWHITE;
-        super.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
-        super.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-    }
+	/**
+	 *Retourne l'indice du carré sur la grille (N° de 0 à 99)
+	 */
+	@Override
+	public int getSquareCoord() {
+		int index = -1;
+		Pane parent = (Pane) this.getParent();
+		index = parent.getChildren().indexOf(this);
+		return index;
+	}
 
-    /**
-     * Retourne l'indice du carré sur la grille (N° de 0 à 99)
-     */
-    @Override
-    public int getSquareCoord() {
-        int index = -1;
-        Pane parent = (Pane) this.getParent();
-        index = parent.getChildren().indexOf(this);
-        return index;
-    }
-
-    public int getCol() {
-        return col;
-    }
-
-    public int getLigne() {
-        return ligne;
-    }
-
-    public PieceSquareColor getSquareColor() {
-        return squareColor;
-    }
 }

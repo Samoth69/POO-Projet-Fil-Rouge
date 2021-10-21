@@ -20,8 +20,13 @@ public class QueenModel extends AbstractPieceModel {
 	public boolean isMoveOk(Coord targetCoord, boolean isPieceToCapture) {
 		boolean ret = false;
 
-		if (Math.abs(targetCoord.getColonne() - this.getColonne()) == 2 && Math.abs(targetCoord.getLigne() - this.getLigne()) == 2) {
+		int dif = 1;
 
+		if (isPieceToCapture)
+			dif = 2;
+
+		if (Math.abs(targetCoord.getColonne() - this.getColonne()) == dif && Math.abs(targetCoord.getLigne() - this.getLigne()) == dif) {
+			ret = true;
 		}
 		
 		return ret;

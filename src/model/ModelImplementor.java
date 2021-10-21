@@ -67,7 +67,7 @@ public class ModelImplementor implements Promotable {
         boolean isMovePieceDone = false;
 
         AbstractPieceModel pm = findPiece(initCoord);
-        if (pm != null) {
+        if (pm != null && !isPiecehere(targetCoord)) {
             this.pieces.remove(initCoord);
             pm.move(targetCoord);
             this.pieces.put(targetCoord, pm);
