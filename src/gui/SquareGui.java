@@ -1,7 +1,9 @@
 package gui;
 
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
+import javafx.geometry.Insets;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import nutsAndBolts.PieceSquareColor;
 
 /**
  * @author francoiseperrin
@@ -12,7 +14,17 @@ import javafx.scene.layout.Pane;
  */
 class SquareGui extends BorderPane implements CheckersSquareGui {
 
-	// ToDo Atelier 2
+	private final PieceSquareColor color;
+
+	public SquareGui(PieceSquareColor color) {
+		super();
+		this.color = color;
+
+		// la couleur est définie par les valeurs par défaut de configuration
+		Color GioConfcolor = PieceSquareColor.BLACK.equals(color) ? GuiConfig.CASEBLACK : GuiConfig.CASEWHITE;
+		this.setBackground(new Background(new BackgroundFill(GioConfcolor, CornerRadii.EMPTY, Insets.EMPTY)));
+		this.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+	}
 
 	/**
 	 *Retourne l'indice du carr� sur la grille (N� de 0 � 99)

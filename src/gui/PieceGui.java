@@ -13,24 +13,22 @@ import javafx.scene.image.ImageView;
  */
 
 public class PieceGui extends ImageView implements CheckersPieceGui {
-	
-	// ToDo Atelier 2
-	
-	
-	
+
+	private final PieceSquareColor color;
+
+	public PieceGui(Image image, PieceSquareColor pieceColor) {
+		super(image);
+		this.color = pieceColor;
+	}
+
 	@Override
 	public void promote(Image image) {
-		
-		// ToDo Atelier 2, utile pour Atelier 3
-		
+		this.setImage(image);
 	}
 
 	@Override
 	public boolean hasSameColorAsGamer(PieceSquareColor gamerColor) {
-
-		// ToDo Atelier 2, utile pour Atelier 4
-		
-		return false; // � changer 
+		return this.color == gamerColor;
 	}
 	
 }
