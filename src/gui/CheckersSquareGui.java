@@ -2,14 +2,14 @@ package gui;
 
 /**
  * @author francoise.perrin
- * Cette interface permet de vérifier qu'un Node
+ * Cette interface permet de vï¿½rifier qu'un Node
  * est fonctionnellement une case du jeu
  *  
  */
 public interface CheckersSquareGui {
 	
 	/**
-	 *Retourne l'indice du carré sur la grille (N° de 0 à 99)
+	 *Retourne l'indice du carrï¿½ sur la grille (Nï¿½ de 0 ï¿½ 99)
 	 */
 	int getSquareCoord();
 }

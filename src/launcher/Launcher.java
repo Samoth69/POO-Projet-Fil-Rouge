@@ -5,14 +5,14 @@ import controller.Mediator;
 import controller.localController.Controller;
 import gui.GuiConfig;
 import gui.View;
+import model.BoardGame;
+import model.Coord;
+import model.Model;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import model.BoardGame;
-import model.Coord;
-import model.Model;
 
 
 public class Launcher extends Application {
@@ -39,7 +39,7 @@ public class Launcher extends Application {
 		
 		///////////////////////////////////////////////////////////////////////////////////////
 		// Objet qui contrôle les actions de la vue et les transmet au model
-		// il renvoie les réponses du model à la vue
+		// il renvoie les réponses du model à  la vue
 		///////////////////////////////////////////////////////////////////////////////////////
 		
 		this.controller = new Controller();
@@ -65,7 +65,7 @@ public class Launcher extends Application {
 	public void start (Stage primaryStage) {
 
 		primaryStage.setScene(new Scene(this.view, GuiConfig.HEIGHT, GuiConfig.HEIGHT));
-		primaryStage.setTitle("Jeu de dames - Version de départ");
+		primaryStage.setTitle("Jeu de dames - Version Atelier 1");
 		primaryStage.show();
 	
 	}

@@ -1,41 +1,21 @@
 package gui;
 
-import nutsAndBolts.PieceSquareColor;
-import javafx.geometry.Insets;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 
 /**
  * @author francoiseperrin
  * 
- * Classe d'affichage des carrés du damier
- * leur couleur est initialisé par les couleurs par défaut du jeu
+ * Classe d'affichage des carrï¿½s du damier
+ * leur couleur est initialisï¿½ par les couleurs par dï¿½faut du jeu
  *
  */
 class SquareGui extends BorderPane implements CheckersSquareGui {
 
-	private final PieceSquareColor color;
-
-	public SquareGui(PieceSquareColor color) {
-		super();
-		this.color = color;
-
-		// la couleur est définie par les valeurs par défaut de configuration
-		Color GioConfcolor = PieceSquareColor.BLACK.equals(color) ? GuiConfig.CASEBLACK : GuiConfig.CASEWHITE;
-		this.setBackground(new Background(new BackgroundFill(GioConfcolor, CornerRadii.EMPTY, Insets.EMPTY)));
-		this.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-	}
+	// ToDo Atelier 2
 
 	/**
-	 *Retourne l'indice du carré sur la grille (N° de 0 à 99)
+	 *Retourne l'indice du carrï¿½ sur la grille (Nï¿½ de 0 ï¿½ 99)
 	 */
 	@Override
 	public int getSquareCoord() {

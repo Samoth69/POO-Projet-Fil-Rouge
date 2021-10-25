@@ -12,43 +12,43 @@ import javafx.scene.layout.Pane;
 /**
  * @author francoise.perrin
  * 
- * Cette classe est la fenêtre du jeu de dames
- * Elle délègue a un objet Board la gestion de l'affichage du damier
+ * Cette classe est la fenï¿½tre du jeu de dames
+ * Elle dï¿½lï¿½gue a un objet Board la gestion de l'affichage du damier
  * et affiche les axes le long du damier
  * 
  */
 
 public class View extends BorderPane {
 
-	// le damier composé de carrés noirs et blancs
-	// sur lesquels sont positionnés des pièces noires ou blanches
+	// le damier composï¿½ de carrï¿½s noirs et blancs
+	// sur lesquels sont positionnï¿½s des piï¿½ces noires ou blanches
 	Pane board ;
 
 	public View (EventHandler<MouseEvent> clicListener) {
 		super();
 
-		// les cases et le pièces sur le damier seront écoutées par l'objet
-		// passé en paramètre au constructeur
+		// les cases et le piï¿½ces sur le damier seront ï¿½coutï¿½es par l'objet
+		// passï¿½ en paramï¿½tre au constructeur
 		board = new Board(clicListener);
 
 		
-		// création d'un fond d'écran qui contient le damier + les axes 
+		// crï¿½ation d'un fond d'ï¿½cran qui contient le damier + les axes 
 		BorderPane checkersBoard = new BorderPane();	
 
 		// la taille du damier est fonction de taille de la Scene
 		board.prefWidthProperty().bind(this.widthProperty());
 		board.prefHeightProperty().bind(this.heightProperty());
 
-		// ajout du damier au centre du fond d'écran
+		// ajout du damier au centre du fond d'ï¿½cran
 		checkersBoard.setCenter(board);
 
-		// ajout des axes sur les cotés du damier
+		// ajout des axes sur les cotï¿½s du damier
 		checkersBoard.setTop(createHorizontalAxis());
 		checkersBoard.setBottom(createHorizontalAxis());
 		checkersBoard.setLeft(createVerticalAxis());
 		checkersBoard.setRight(createVerticalAxis());
 
-		// ajout du fond d'écran à la vue
+		// ajout du fond d'ï¿½cran ï¿½la vue
 		this.setCenter(checkersBoard);
 
 
@@ -56,12 +56,13 @@ public class View extends BorderPane {
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////// 
-	// Méthode invoquée depuis le Controller pour propager les déplacements
-	// effectués sur le model sur la vue
+	// Mï¿½thode invoquï¿½e depuis le Controller pour propager les dï¿½placements
+	// effectuï¿½s sur le model sur la vue
 	/////////////////////////////////////////////////////////////////////////////////////
 	
 	public void actionOnGui(InputViewData<Integer> dataToRefreshView) {
 		((Board)this.board).actionOnGui(dataToRefreshView);
+		
 	}
 	
 	//////////////////////////////////////////////////////////////////////////

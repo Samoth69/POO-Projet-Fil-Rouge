@@ -1,34 +1,36 @@
 package gui;
 
+import nutsAndBolts.PieceSquareColor;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import nutsAndBolts.PieceSquareColor;
 
 
 /**
  * @author francoise.perrin
  * 
- * Cette classe permet de donner une image aux pièces
+ * Cette classe permet de donner une image aux piï¿½ces
  *
  */
 
 public class PieceGui extends ImageView implements CheckersPieceGui {
-
-	private final PieceSquareColor color;
-
-	public PieceGui(Image image, PieceSquareColor pieceColor) {
-		super(image);
-		this.color = pieceColor;
-	}
-
+	
+	// ToDo Atelier 2
+	
+	
+	
 	@Override
 	public void promote(Image image) {
-		this.setImage(image);
+		
+		// ToDo Atelier 2, utile pour Atelier 3
+		
 	}
 
 	@Override
 	public boolean hasSameColorAsGamer(PieceSquareColor gamerColor) {
-		return this.color == gamerColor;
+
+		// ToDo Atelier 2, utile pour Atelier 4
+		
+		return false; // ï¿½ changer 
 	}
 	
 }

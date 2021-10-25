@@ -1,5 +1,6 @@
 package gui;
 
+
 import controller.InputViewData;
 import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
@@ -10,128 +11,130 @@ import javafx.scene.layout.GridPane;
 /**
  * @author francoiseperrin
  * <p>
- * Cette classe représente le damier de la vue
+ * Cette classe reprï¿½sente le damier de la vue
  * <p>
  * Elle tire les valeurs d'affichage d'une fabrique de constante (GuiConfig)
- * public final static int size = 10;
- * public final static double height = 600.0;
- * <p>
- * Elle délègue à une fabrique le soin de créer et positionner les cases noires et blanches
- * et de créer et positionner les pièces à leur position initiale
- * <p>
- * Lorsque le model est MAJ, la méthode moveCapturePromotion() est invoquée pour
- * déplacer effectivement la pièce sur le damier et éventuellement prendre et/ou promouvoir une PieceGui
- * (invocation à partir du controller en passant par classe View)
+ * 		public final static int size = 10;
+ * 		public final static double height = 600.0;
+ * 
+ * Elle dï¿½lï¿½gue ï¿½ une fabrique le soin de crï¿½er et positionner les cases noires et blanches
+ * et de crï¿½er et positionner les piï¿½ces ï¿½ leur position initiale
+ * 
+ * Lorsque le model est MAJ, la mï¿½thode moveCapturePromotion() est invoquï¿½e pour 
+ * dï¿½placer effectivement la piï¿½ce sur le damier et ï¿½ventuellement prendre et/ou promouvoir une PieceGui
+ * (invocation ï¿½ partir du controller en passant par classe View)
+ * 
  */
 class Board extends GridPane {
 
-    public Board(EventHandler<MouseEvent> clicListener) {
-        super();
+	public Board (EventHandler<MouseEvent> clicListener) {
+		super();
 
-        int nbCol, nbLig;
-        nbCol = nbLig = GuiConfig.SIZE;
+		int nbCol, nbLig;
+		nbCol = nbLig = GuiConfig.SIZE;
 
-        BorderPane square = null;
-        ImageView piece = null;
+		BorderPane square = null;
+		ImageView piece = null;
 
-        for (int ligne = 0; ligne < nbLig; ligne++) {
-            for (int col = 0; col < nbCol; col++) {
+		for (int ligne = 0; ligne < nbLig; ligne++){
+			for (int col = 0; col < nbCol; col++) {
 
-                ///// Création d'une case /////
+				///// Crï¿½ation d'une case /////
 
-                // création d'un BorderPane
-                square = GuiFactory.createSquare(col, ligne);
+				// crï¿½ation d'un BorderPane
+				square = GuiFactory.createSquare(col, ligne);
 
-                // ajout d'un écouteur sur le carré
-                square.setOnMouseClicked(clicListener);
+				// ajout d'un ï¿½couteur sur le carrï¿½
+				square.setOnMouseClicked(clicListener);
 
-                // taille des carrés = taille de la fenetre / nombre de carrés par lignes
-                square.prefWidthProperty().bind(this.prefWidthProperty().divide(nbCol));
-                square.prefHeightProperty().bind(this.prefHeightProperty().divide(nbLig));
+				// taille des carrï¿½s = taille de la fenetre / nombre de carrï¿½s par lignes
+				square.prefWidthProperty().bind(this.prefWidthProperty().divide(nbCol));
+				square.prefHeightProperty().bind(this.prefHeightProperty().divide(nbLig));
 
-                // ajout du carre sur le damier
-                this.add(square, col, ligne);
-
-
-                ///// Si une pièce doit se trouver sur cette case /////
-
-                // création de la pièce uniquement si doit être sur cette case
-                piece = GuiFactory.createPiece(col, ligne);
-
-                if (piece != null) {
-
-                    // ajout d'un écouteur de souris
-                    // si la pièce est sélectionnée, elle sera supprimé de son emplacement actuel
-                    // et repositionnée sur une autre case
-                    piece.setOnMouseClicked(clicListener);
-
-                    // gestion de la taille et position de la pièce (au centre du carré)
-                    piece.fitWidthProperty().bind(square.widthProperty().divide(1.5));
-                    piece.fitHeightProperty().bind(square.heightProperty().divide(1.5));
-                    piece.xProperty().bind((square.widthProperty().subtract(piece.fitWidthProperty())).divide(2));
-                    piece.yProperty().bind(square.heightProperty().subtract(piece.fitHeightProperty()).divide(2));
-
-                    // Ajout de la pièce sur le carré noir
-                    square.getChildren().add(piece);
-                }
-            }
-        }
-    }
-
-    /////////////////////////////////////////////////////////////
-    // Actions sur la view
-    // initiées par le controller en passant par la classe View
-    /////////////////////////////////////////////////////////////
+				// ajout du carre sur le damier
+				this.add(square, col, ligne);
 
 
-    /**
-     * @param dataToRefreshView Cette méthode est appelée par le controller en passant par la classe View
-     *                          afin de rafraichir la view lorsque le model a été mis à jour
-     */
-    public void actionOnGui(InputViewData<Integer> dataToRefreshView) {
+				///// Si une piï¿½ce doit se trouver sur cette case /////
 
-        if (dataToRefreshView != null) {
+				// crï¿½ation de la piï¿½ce uniquement si doit ï¿½tre sur cette case
+				piece = GuiFactory.createPiece(col, ligne);
 
-            ////////////////////////////////////////////////////
-            // la PieceGui de la vue est effectivement déplacée
-            ////////////////////////////////////////////////////
-            if (dataToRefreshView.toMovePieceIndex != -1 && dataToRefreshView.targetSquareIndex != -1) {
-                ImageView toMovePiece = null;
-                BorderPane toMovePieceSquare = (BorderPane) this.getChildren().get(dataToRefreshView.toMovePieceIndex);
-                BorderPane targetSquare = (BorderPane) this.getChildren().get(dataToRefreshView.targetSquareIndex);
+				if (piece != null) {
 
-                // Ajout sur la case de destination
-                if (!toMovePieceSquare.getChildren().isEmpty())
-                    toMovePiece = (ImageView) toMovePieceSquare.getChildren().get(0);
+					// ajout d'un ï¿½couteur de souris
+					// si la piï¿½ce est sï¿½lectionnï¿½e, elle sera supprimï¿½ de son emplacement actuel
+					// et repositionnï¿½e sur une autre case
+					piece.setOnMouseClicked(clicListener);
 
-                // clear la case d'origine de la pièce déplacée
-                if (toMovePiece != null) {
-                    targetSquare.getChildren().add(toMovePiece);
-                    toMovePieceSquare.getChildren().removeAll();
-                }
-            }
+					// gestion de la taille et position de la piï¿½ce (au centre du carrï¿½)
+					piece.fitWidthProperty().bind(square.widthProperty().divide(1.5));
+					piece.fitHeightProperty().bind(square.heightProperty().divide(1.5));
+					piece.xProperty().bind((square.widthProperty().subtract(piece.fitWidthProperty())).divide(2));
+					piece.yProperty().bind(square.heightProperty().subtract(piece.fitHeightProperty()).divide(2));
 
-            ////////////////////////////////////////////////////
-            // la PieceGui de la vue est éventuellement promue
-            ////////////////////////////////////////////////////
-            if (dataToRefreshView.promotedPieceIndex != -1) {
-                BorderPane targetSquare = (BorderPane) this.getChildren().get(dataToRefreshView.promotedPieceIndex);
-                ImageView piece = (ImageView) targetSquare.getChildren().get(0);
-                // délégation à la fabrique qui sait comment fabriquer des images
-                GuiFactory.PromotePiece(piece, dataToRefreshView.promotedPieceColor);
-            }
+					// Ajout de la piï¿½ce sur le carrï¿½ noir
+					square.getChildren().add(piece);
+				}
+			}
+		}
+	}
 
-            ////////////////////////////////////////////////////
-            // l'éventuelle pièce intermédiaire est supprimée
-            ////////////////////////////////////////////////////
-            if (dataToRefreshView.capturedPieceIndex != -1) {
-                // clear la case d'origine de la pièce supprimée
-                BorderPane capturedPieceSquare = (BorderPane) this.getChildren().get(dataToRefreshView.capturedPieceIndex);
-                capturedPieceSquare.getChildren().clear();
-            }
-        }
+	/////////////////////////////////////////////////////////////
+	// Actions sur la view
+	// initiï¿½es par le controller en passant par la classe View
+	/////////////////////////////////////////////////////////////
 
-    }
+
+	/**
+	 * @param dataToRefreshView
+	 * Cette mï¿½thode est appelï¿½e par le controller en passant par la classe View
+	 * afin de rafraichir la view lorsque le model a ï¿½tï¿½ mis ï¿½ jour
+	 */
+	public void actionOnGui(InputViewData<Integer> dataToRefreshView) {
+		
+		if (dataToRefreshView != null) {
+			
+			////////////////////////////////////////////////////
+			// la PieceGui de la vue est effectivement dï¿½placï¿½e
+			////////////////////////////////////////////////////
+			if (dataToRefreshView.toMovePieceIndex != -1 && dataToRefreshView.targetSquareIndex != -1) {
+				ImageView toMovePiece = null;
+				BorderPane toMovePieceSquare = (BorderPane) this.getChildren().get(dataToRefreshView.toMovePieceIndex);
+				BorderPane targetSquare = (BorderPane) this.getChildren().get(dataToRefreshView.targetSquareIndex);
+
+				// Ajout sur la case de destination
+				if (!toMovePieceSquare.getChildren().isEmpty())
+					toMovePiece = (ImageView) toMovePieceSquare.getChildren().get(0);
+
+				// clear la case d'origine de la piï¿½ce dï¿½placï¿½e
+				if (toMovePiece != null) {
+					targetSquare.getChildren().add(toMovePiece);
+					toMovePieceSquare.getChildren().removeAll();
+				}
+			}
+
+			////////////////////////////////////////////////////
+			// la PieceGui de la vue est ï¿½ventuellement promue
+			////////////////////////////////////////////////////
+			if (dataToRefreshView.promotedPieceIndex != -1) {
+				BorderPane targetSquare = (BorderPane) this.getChildren().get(dataToRefreshView.promotedPieceIndex);
+				ImageView piece = (ImageView) targetSquare.getChildren().get(0);
+				// dï¿½lï¿½gation ï¿½ la fabrique qui sait comment fabriquer des images
+				GuiFactory.PromotePiece(piece, dataToRefreshView.promotedPieceColor);
+			}
+
+			////////////////////////////////////////////////////
+			// l'ï¿½ventuelle piï¿½ce intermï¿½diaire est supprimï¿½e 
+			////////////////////////////////////////////////////
+			if (dataToRefreshView.capturedPieceIndex != -1) {
+				// clear la case d'origine de la piï¿½ce supprimï¿½e
+				BorderPane capturedPieceSquare = (BorderPane) this.getChildren().get(dataToRefreshView.capturedPieceIndex);
+				capturedPieceSquare.getChildren().clear();
+			}
+		}
+
+	}
 
 }
 
