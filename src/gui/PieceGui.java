@@ -15,10 +15,13 @@ import javafx.scene.image.ImageView;
 public class PieceGui extends ImageView implements CheckersPieceGui {
 
 	private final PieceSquareColor color;
+	private final int col, ligne;
 
-	public PieceGui(Image image, PieceSquareColor pieceColor) {
+	public PieceGui(Image image, PieceSquareColor pieceColor, int col, int ligne) {
 		super(image);
 		this.color = pieceColor;
+		this.col = col;
+		this.ligne = ligne;
 	}
 
 	@Override

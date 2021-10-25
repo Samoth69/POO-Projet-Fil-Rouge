@@ -45,7 +45,7 @@ public abstract class AbstractPieceModel implements PieceModel, Promotable {
 
     /**
      * @param targetCoord coord visé
-     * @return listes des coords traversé (sans le 'point de départ' et le 'point d'arrivé')
+     * @return listes des coords traversé (sans le 'point de départ' MAIS AVEC le 'point d'arrivé')
      * @author Thomas Violent
      * Renvoie les coordonnées traversé entre le pion et le targetCoord
      */

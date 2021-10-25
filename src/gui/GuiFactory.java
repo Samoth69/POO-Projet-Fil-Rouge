@@ -66,12 +66,14 @@ public class GuiFactory {
 				pieceColor = PieceSquareColor.BLACK;
 			if (ligne > 5)
 				pieceColor = PieceSquareColor.WHITE;
-		}
-		if (pieceColor != null) {
-			image = GuiFactory.createImage(pieceColor, true);
+
+			if (pieceColor != null) {
+				image = GuiFactory.createImage(pieceColor, true);
+				pieceGui = new PieceGui(image, pieceColor, col, ligne);
+			}
 		}
 
-		return new PieceGui(image, pieceColor);
+		return pieceGui;
 	}
 
 	/**
