@@ -9,6 +9,7 @@ import nutsAndBolts.PieceSquareColor;
  * Programme de test des classes du model
  * Utile, tant que M V C non connect�s (atelier 2)
  */
+@Deprecated
 public class TestModel1 {
 
 

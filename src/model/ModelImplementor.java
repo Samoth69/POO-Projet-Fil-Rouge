@@ -82,7 +82,7 @@ public class ModelImplementor {
 
 
     public List<Coord> getCoordsOnItinerary(Coord initCoord, Coord targetCoord) {
-        return new ArrayList<>(this.findPiece(initCoord).getCoordsOnItinerary(targetCoord));
+        return this.findPiece(initCoord).getCoordsOnItinerary(targetCoord);
     }
 
 

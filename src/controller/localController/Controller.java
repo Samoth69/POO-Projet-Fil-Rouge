@@ -1,6 +1,7 @@
 package controller.localController;
 
 
+import controller.InputViewData;
 import controller.Mediator;
 import controller.OutputModelData;
 import gui.CheckersSquareGui;
@@ -140,19 +141,37 @@ public class Controller implements Mediator, BoardGame<Integer>, EventHandler<Mo
 	@Override
 	public OutputModelData<Integer> moveCapturePromote(Integer toMovePieceIndex, Integer targetSquareIndex) {
 
-		OutputModelData<Integer> outputControllerData = null;
+		OutputModelData<Integer> ret = null;
+		OutputModelData<Coord> outputModelData = null;
 
-		// TODO atelier 2
-	
+		outputModelData = model.moveCapturePromote(transformIndexToCoord(toMovePieceIndex), transformIndexToCoord(targetSquareIndex));
+
+//        outputModelData = new OutputModelData<>(
+//                omd.isMoveDone,
+//                transformCoordToIndex(omd.capturedPieceCoord),
+//                transformCoordToIndex(omd.promotedPieceCoord),
+//                omd.promotedPieceColor
+//        );
+
+		if (outputModelData.isMoveDone) {
+			InputViewData<Integer> ivd = new InputViewData<Integer>(
+					toMovePieceIndex,
+					targetSquareIndex,
+					transformCoordToIndex(outputModelData.capturedPieceCoord),
+					transformCoordToIndex(outputModelData.promotedPieceCoord),
+					outputModelData.promotedPieceColor
+			);
+
+			view.actionOnGui(ivd);
+		}
 
 		// Inutile de reconstituer un objetOutputModelData<Integer>, aucun client ne le r�cup�re en mode local
-		return outputControllerData;
+		return ret;
 	}
 
 
 	/**
 	 * @param squareIndex
-	 * @param length
 	 * @return les coordonn�es m�tier calcul�es � partir de l'index du SquareGUI sous la PieceGUI
 	 */
 	private Coord transformIndexToCoord (int squareIndex) {
