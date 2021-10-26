@@ -174,7 +174,7 @@ public class Controller implements Mediator, BoardGame<Integer>, EventHandler<Mo
 	 * @param squareIndex
 	 * @return les coordonn�es m�tier calcul�es � partir de l'index du SquareGUI sous la PieceGUI
 	 */
-	private Coord transformIndexToCoord (int squareIndex) {
+	private static Coord transformIndexToCoord (int squareIndex) {
 		Coord coord = null;
 		int  length = ModelConfig.LENGTH;
 		char col = (char) ((squareIndex)%length + 'a');
@@ -183,7 +183,7 @@ public class Controller implements Mediator, BoardGame<Integer>, EventHandler<Mo
 		return coord;
 	}
 
-	private int transformCoordToIndex (Coord coord) {
+	private static int transformCoordToIndex (Coord coord) {
 		int squareIndex = -1;
 		int  length = ModelConfig.LENGTH;
 		if (coord != null) {

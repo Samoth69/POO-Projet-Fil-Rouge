@@ -30,7 +30,6 @@ import javafx.scene.paint.Color;
  */
 public class GuiFactory {
 
-	
 	/**
 	 * @param col
 	 * @param ligne
