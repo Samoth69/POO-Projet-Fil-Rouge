@@ -33,8 +33,8 @@ class Board extends GridPane {
 		int nbCol, nbLig;
 		nbCol = nbLig = GuiConfig.SIZE;
 
-		BorderPane square = null;
-		ImageView piece = null;
+		BorderPane square;
+		ImageView piece;
 
 		for (int ligne = 0; ligne < nbLig; ligne++){
 			for (int col = 0; col < nbCol; col++) {

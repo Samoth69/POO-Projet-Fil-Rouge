@@ -1,23 +1,13 @@
 package gui;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
+import nutsAndBolts.PieceSquareColor;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-
-import nutsAndBolts.PieceSquareColor;
-
-import javafx.geometry.Insets;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.paint.Color;
 
 
 /**
@@ -31,8 +21,8 @@ import javafx.scene.paint.Color;
 public class GuiFactory {
 
 	/**
-	 * @param col
-	 * @param ligne
+	 * @param col colonne
+	 * @param ligne ligne
 	 * @return Une case noire ou blanche en alternance
 	 * la case en bas � gauche est noire
 	 */
@@ -49,15 +39,15 @@ public class GuiFactory {
 	}
 
 	/**
-	 * @param col
-	 * @param ligne
+	 * @param col colonne
+	 * @param ligne ligne
 	 * @return une PieceGui si col/ligne correspond � cases noires
 	 * des 4 lignes du haut (piece noire) et du bas du damier (piece blanche)
 	 */
 	public static ImageView createPiece(int col, int ligne) {
 
 		ImageView pieceGui = null;
-		Image image = null;
+		Image image;
 		PieceSquareColor pieceColor = null;
 
 		if  ( !((col % 2 == 0 && ligne % 2 == 0) || (col % 2 != 0 && ligne % 2 != 0)) ) {
@@ -76,8 +66,8 @@ public class GuiFactory {
 	}
 
 	/**
-	 * @param piece
-	 * @param promotedPieceColor
+	 * @param piece objet javaFX contenant le pion
+	 * @param promotedPieceColor couleur de pièce à promouvoir
 	 * la promotion consiste � changer l'image de la PieceGui
 	 */
 	public static void PromotePiece(ImageView piece, PieceSquareColor promotedPieceColor) {
@@ -92,7 +82,7 @@ public class GuiFactory {
 	private static Image createImage(PieceSquareColor pieceColor, boolean ispawn) {
 
 		Image image = null;
-		String pieceImageFile = null, nomImageFile = null;
+		String pieceImageFile, nomImageFile;
 		File g = new File("");
 
 		if (ispawn) {

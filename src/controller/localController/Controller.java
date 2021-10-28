@@ -140,9 +140,7 @@ public class Controller implements Mediator, BoardGame<Integer>, EventHandler<Mo
     public OutputModelData<Integer> moveCapturePromote(Integer toMovePieceIndex, Integer targetSquareIndex) {
 
         OutputModelData<Integer> ret = null;
-        OutputModelData<Coord> outputModelData = null;
-
-        outputModelData = model.moveCapturePromote(transformIndexToCoord(toMovePieceIndex), transformIndexToCoord(targetSquareIndex));
+        OutputModelData<Coord> outputModelData = model.moveCapturePromote(transformIndexToCoord(toMovePieceIndex), transformIndexToCoord(targetSquareIndex));
 
 //        outputModelData = new OutputModelData<>(
 //                omd.isMoveDone,
@@ -152,7 +150,7 @@ public class Controller implements Mediator, BoardGame<Integer>, EventHandler<Mo
 //        );
 
         if (outputModelData.isMoveDone) {
-            InputViewData<Integer> ivd = new InputViewData<Integer>(
+            InputViewData<Integer> ivd = new InputViewData<>(
                     toMovePieceIndex,
                     targetSquareIndex,
                     transformCoordToIndex(outputModelData.capturedPieceCoord),
@@ -169,16 +167,14 @@ public class Controller implements Mediator, BoardGame<Integer>, EventHandler<Mo
 
 
     /**
-     * @param squareIndex
+     * @param squareIndex index
      * @return les coordonn�es m�tier calcul�es � partir de l'index du SquareGUI sous la PieceGUI
      */
     private static Coord transformIndexToCoord(int squareIndex) {
-        Coord coord = null;
         int length = ModelConfig.LENGTH;
         char col = (char) ((squareIndex) % length + 'a');
         int ligne = length - (squareIndex) / length;
-        coord = new Coord(col, ligne);
-        return coord;
+        return new Coord(col, ligne);
     }
 
     private static int transformCoordToIndex(Coord coord) {

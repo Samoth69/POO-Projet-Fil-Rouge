@@ -1,11 +1,9 @@
 package model;
 
+import nutsAndBolts.PieceSquareColor;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import nutsAndBolts.PieceSquareColor;
 
 /**
  * @author francoise.perrin
@@ -21,7 +19,7 @@ import nutsAndBolts.PieceSquareColor;
 public class ModelImplementor {
 
     // la collection de pi�ces en jeu - m�lange noires et blanches
-    private Collection<PieceModel> pieces;
+    private final Collection<PieceModel> pieces;
 
     public ModelImplementor() {
         super();

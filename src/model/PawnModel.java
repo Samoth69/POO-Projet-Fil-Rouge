@@ -1,14 +1,10 @@
 package model;
 
-
-import java.util.LinkedList;
-import java.util.List;
-
 import nutsAndBolts.PieceSquareColor;
 
 public class PawnModel extends AbstractPieceModel implements Promotable {
 
-	private int direction;
+	private final int direction;
 	
 	public PawnModel(Coord coord, PieceSquareColor pieceColor) {
 		super(coord, pieceColor);
@@ -44,7 +40,7 @@ public class PawnModel extends AbstractPieceModel implements Promotable {
 
 	@Override
 	public boolean isPromotable() {
-		boolean ret = false;
+		boolean ret;
 		if (this.getPieceColor() == PieceSquareColor.BLACK)
 		{
 			ret = this.getLigne() == 1; //le tableau va de 1..LENGTH
