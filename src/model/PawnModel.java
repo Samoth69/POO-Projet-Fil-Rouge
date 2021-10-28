@@ -6,7 +6,7 @@ import java.util.List;
 
 import nutsAndBolts.PieceSquareColor;
 
-public class PawnModel extends AbstractPieceModel{
+public class PawnModel extends AbstractPieceModel implements Promotable {
 
 	private int direction;
 	
@@ -44,7 +44,21 @@ public class PawnModel extends AbstractPieceModel{
 
 	@Override
 	public boolean isPromotable() {
-		return false;
+		boolean ret = false;
+		if (this.getPieceColor() == PieceSquareColor.BLACK)
+		{
+			ret = this.getLigne() == 1; //le tableau va de 1..LENGTH
+		}
+		else //PieceSquareColor.WHITE
+		{
+			ret = this.getLigne() == ModelConfig.LENGTH;
+		}
+		return ret;
+	}
+
+	@Override
+	public void promote() {
+		//ne fait rien
 	}
 
 }

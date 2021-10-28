@@ -81,14 +81,12 @@ public class GuiFactory {
 	 * la promotion consiste � changer l'image de la PieceGui
 	 */
 	public static void PromotePiece(ImageView piece, PieceSquareColor promotedPieceColor) {
-
-		// ToDo Atelier 3
-		
+		piece.setImage(createImage(promotedPieceColor, false));
 	}
 	
 	/**
-	 * @param pieceColor
-	 * @param ispawn
+	 * @param pieceColor couleur de la pièce
+	 * @param ispawn si faux, concidère que l'on shouaite créer une queen
 	 * @return une image cr��e � partir d'un fichier png
 	 */
 	private static Image createImage(PieceSquareColor pieceColor, boolean ispawn) {

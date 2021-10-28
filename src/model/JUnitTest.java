@@ -5,6 +5,7 @@ import model.ModelImplementor;
 import model.PawnModel;
 import model.PieceModel;
 import nutsAndBolts.PieceSquareColor;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
@@ -143,5 +144,32 @@ class JUnitTest {
 
         model.moveCapturePromote(new Coord('h', 4), new Coord('h', 5));
         assertNotEquals(before, model.toString());
+    }
+
+    @Test
+    void testQueenModel() {
+        QueenModel qmb = new QueenModel(new Coord('d', 4), PieceSquareColor.BLACK);
+        QueenModel qmw = new QueenModel(new Coord('g', 8), PieceSquareColor.WHITE);
+
+        //test déplacement en haut et en bas valide
+        assertTrue(qmb.isMoveOk(new Coord('c', 5), false));
+        assertTrue(qmb.isMoveOk(new Coord('e', 3), false));
+
+        assertTrue(qmw.isMoveOk(new Coord('f', 9), false));
+        assertTrue(qmw.isMoveOk(new Coord('h', 7), false));
+
+        //déplacements invalide (déplacement de une case avec un pion à capturé)
+        assertFalse(qmb.isMoveOk(new Coord('c', 5), true));
+        assertFalse(qmb.isMoveOk(new Coord('e', 3), true));
+
+        assertFalse(qmw.isMoveOk(new Coord('f', 9), true));
+        assertFalse(qmw.isMoveOk(new Coord('h', 7), true));
+
+        //déplacement de deux case avec un pion à prendre
+        assertTrue(qmb.isMoveOk(new Coord('b', 6), true));
+        assertTrue(qmb.isMoveOk(new Coord('f', 2), true));
+
+        assertTrue(qmw.isMoveOk(new Coord('e', 10), true));
+        assertTrue(qmw.isMoveOk(new Coord('i', 6), true));
     }
 }

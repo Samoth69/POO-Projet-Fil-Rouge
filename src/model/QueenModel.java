@@ -25,16 +25,12 @@ public class QueenModel extends AbstractPieceModel{
 		if (isPieceToCapture)
 			dif = 2;
 
-		if (Math.abs(targetCoord.getColonne() - this.getColonne()) == dif && Math.abs(targetCoord.getLigne() - this.getLigne()) == dif) {
+		if (Math.abs(targetCoord.getColonne() - this.getColonne()) >= dif && Math.abs(targetCoord.getLigne() - this.getLigne()) >= dif) {
 			ret = true;
 		}
 
 		return ret;
 	}
 
-	@Override
-	public boolean isPromotable() {
-		return false;
-	}
 }
 

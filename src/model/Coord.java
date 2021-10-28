@@ -19,6 +19,12 @@ public class Coord implements Comparable<Coord>{
 		this.ligne = ligne;
 	}
 
+	public Coord(PieceModel pieceModel) {
+		super();
+		this.colonne = pieceModel.getColonne();
+		this.ligne = pieceModel.getLigne();
+	}
+
 	public char getColonne() {
 		return colonne;
 	}

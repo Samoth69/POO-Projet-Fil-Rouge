@@ -6,7 +6,7 @@ import nutsAndBolts.PieceSquareColor;
 import java.util.LinkedList;
 import java.util.List;
 
-public abstract class AbstractPieceModel implements PieceModel, Promotable {
+public abstract class AbstractPieceModel implements PieceModel {
     protected Coord coord;
     protected PieceSquareColor pieceColor;
 
@@ -86,14 +86,6 @@ public abstract class AbstractPieceModel implements PieceModel, Promotable {
         }
 
         return coordsOnItinery;
-    }
-
-    @Override
-    public abstract boolean isPromotable();
-
-    @Override
-    public void promote() {
-        
     }
 
     @Override

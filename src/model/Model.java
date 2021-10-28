@@ -79,9 +79,14 @@ public class Model implements BoardGame<Coord> {
                     this.remove(toCapturePieceCoord);
 
                     // promotion éventuelle de la pièce après déplacement
-                    if (true) {    // TODO : Test à changer atelier 3
-
-                        // TODO atelier 3
+                    if (this.implementor.findPiece(targetSquareCoord) instanceof PawnModel pm)
+                    {
+                        if (pm.isPromotable())
+                        {
+                            this.implementor.promote(new Coord(pm));
+                            toPromotePieceColor = pm.getPieceColor();
+                            toPromotePieceCoord = new Coord(pm);
+                        }
                     }
 
                     // S'il n'y a pas eu de prise
@@ -177,8 +182,6 @@ public class Model implements BoardGame<Coord> {
     }
 
     /**
-     * @param initCoord
-     * @param targetCoord
      * @param isPieceToCapture
      * @return true si le déplacement est légal
      * (s'effectue en diagonale, avec ou sans prise)

@@ -80,6 +80,12 @@ public class ModelImplementor {
         pieces.remove(toRemove);
     }
 
+    public void promote(Coord coord) {
+        if (this.findPiece(coord) instanceof PawnModel pm) {
+            this.removePiece(new Coord(pm));
+            this.pieces.add(new QueenModel(new Coord(pm), pm.getPieceColor()));
+        }
+    }
 
     public List<Coord> getCoordsOnItinerary(Coord initCoord, Coord targetCoord) {
         return this.findPiece(initCoord).getCoordsOnItinerary(targetCoord);
