@@ -3,6 +3,7 @@ package model;
 
 import java.lang.annotation.Target;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import controller.OutputModelData;
@@ -79,10 +80,8 @@ public class Model implements BoardGame<Coord> {
                     this.remove(toCapturePieceCoord);
 
                     // promotion éventuelle de la pièce après déplacement
-                    if (this.implementor.findPiece(targetSquareCoord) instanceof PawnModel pm)
-                    {
-                        if (pm.isPromotable())
-                        {
+                    if (this.implementor.findPiece(targetSquareCoord) instanceof PawnModel pm) {
+                        if (pm.isPromotable()) {
                             this.implementor.promote(new Coord(pm));
                             toPromotePieceColor = pm.getPieceColor();
                             toPromotePieceCoord = new Coord(pm);
@@ -91,7 +90,7 @@ public class Model implements BoardGame<Coord> {
 
                     // S'il n'y a pas eu de prise
                     // ou si une rafle n'est pas possible alors changement de joueur
-                    if (true) {    // TODO : Test à changer atelier 4
+                    if (!isTherePieceAroundToCapture(targetSquareCoord)) {    // TODO : Test à changer atelier 4
                         this.switchGamer();
                     }
 
@@ -132,11 +131,11 @@ public class Model implements BoardGame<Coord> {
     }
 
     /**
+     * @param start point de départ (non compris)
+     * @param end   point d'arrivée (non compris)
+     * @return pion entre les deux points
      * @author Thomas Violent
      * Renvoie les coordonnées avec
-     * @param start point de départ (non compris)
-     * @param end point d'arrivée (non compris)
-     * @return pion entre les deux points
      */
     private List<Coord> getPawnOnItinerary(Coord start, Coord end) {
         ArrayList<Coord> liCo = new ArrayList<>();
@@ -174,11 +173,23 @@ public class Model implements BoardGame<Coord> {
 
         List<Coord> liCoord = getPawnOnItinerary(toMovePieceCoord, targetSquareCoord);
 
-        if (!liCoord.isEmpty()){
+        if (!liCoord.isEmpty()) {
             ret = liCoord.get(0);
         }
 
         return ret;
+    }
+
+    /**
+     * Vérifie si des pions du joueur opposé peuvent être capturé à partir des coordonnées fourni
+     *
+     * @param pos Position de départ du pion
+     * @return true s'il y a une pièce à capturer autour
+     * false si aucune pièce ne peux être capturé
+     */
+    private boolean isTherePieceAroundToCapture(Coord pos) {
+        // TODO
+        return false;
     }
 
     /**
