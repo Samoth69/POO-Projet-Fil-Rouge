@@ -5,6 +5,7 @@ import nutsAndBolts.PieceSquareColor;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public abstract class AbstractPieceModel implements PieceModel {
     protected Coord coord;
@@ -58,7 +59,7 @@ public abstract class AbstractPieceModel implements PieceModel {
         boolean difColPos, difLignePos;
 
         //si le déplacement est supérieur à une case en diagonale
-        if (Math.abs(this.getColonne() - targetCoord.getColonne()) > 1 && Math.abs(this.getLigne() - targetCoord.getLigne()) > 1) {
+        if (Math.abs(this.getColonne() - targetCoord.getColonne()) != 0 && Math.abs(this.getLigne() - targetCoord.getLigne()) != 0) {
 
             //si le déplacement est de même longueur en colonne et en ligne
             if (Math.abs(this.getLigne() - targetCoord.getLigne()) == Math.abs(this.getColonne() - targetCoord.getColonne())) {
@@ -86,6 +87,44 @@ public abstract class AbstractPieceModel implements PieceModel {
         }
 
         return coordsOnItinery;
+    }
+
+    @Override
+    public int compareTo(PieceModel o) {
+        int ret;
+        if (this.getLigne() == o.getLigne()) {
+            if (this.getColonne() < o.getColonne()) {
+                ret = -1;
+            } else if (this.getColonne() > o.getColonne()) {
+                ret = 1;
+            } else {
+                ret = 0;
+            }
+        } else {
+            ret = -Integer.compare(this.getLigne(), o.getLigne());
+        }
+        return ret;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AbstractPieceModel that = (AbstractPieceModel) o;
+        return Objects.equals(coord, that.coord) && pieceColor == that.pieceColor;
+    }
+
+    @Override
+    public int hashCode() {
+        int ret;
+
+        ret = this.getColonne();
+        ret *= 100; //un char vaut au max 3 chiffres
+        ret += this.getLigne();
+        ret *= ModelConfig.LENGTH;
+        ret += this.getPieceColor() == PieceSquareColor.WHITE ? 1 : 2;
+
+        return ret;
     }
 
     @Override

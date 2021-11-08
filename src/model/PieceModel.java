@@ -5,32 +5,32 @@ import java.util.List;
 
 import nutsAndBolts.PieceSquareColor;
 
-public interface PieceModel {
+public interface PieceModel extends Comparable<PieceModel> {
 	
 	
 	/**
 	 * @return the coord
 	 */
-	public char getColonne() ;
-	public int getLigne() ;
+	char getColonne() ;
+	int getLigne() ;
 	
 	/**
 	 * @param coord
 	 * @return true si la pi�ce est aux coordonn�es pass�es en param�tre
 	 */
-	public boolean hasThisCoord(Coord coord);
+	boolean hasThisCoord(Coord coord);
 	
 	/**
 	 * @param coord the coord to set
 	 * le d�placement d'une pi�ce change ses coordonn�es
 	 */
-	public void move(Coord coord);
+	void move(Coord coord);
 
 
 	/**
 	 * @return the pieceColor
 	 */
-	public PieceSquareColor getPieceColor() ;
+	PieceSquareColor getPieceColor() ;
 	
 	
 	/**
@@ -38,13 +38,13 @@ public interface PieceModel {
 	 * @param isPieceToCapture
 	 * @return true si le d�placement est l�gal
 	 */
-	public boolean isMoveOk(Coord targetCoord, boolean isPieceToCapture);
+	boolean isMoveOk(Coord targetCoord, boolean isPieceToCapture);
 
 	/**
 	 * @param targetCoord
 	 * @return liste des coordonn�es des cases travers�es par itin�raire de d�placement
 	 */
-	public List<Coord> getCoordsOnItinerary(Coord targetCoord);
+	List<Coord> getCoordsOnItinerary(Coord targetCoord);
 
 	
 }
