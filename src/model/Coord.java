@@ -9,8 +9,8 @@ package model;
  */
 public class Coord implements Comparable<Coord>{
 
-	private char colonne; 	// ['a'..'j']
-	private int ligne;		// [10..1]
+	private final char colonne; 	// ['a'..'j']
+	private final int ligne;		// [10..1]
 	static final int MAX = ModelConfig.LENGTH;	// 10
 
 	public Coord(char colonne, int ligne) {
@@ -68,7 +68,7 @@ public class Coord implements Comparable<Coord>{
 	 * @param coord
 	 * @return true si 'a' <= col < 'a'+MAX et 1 < lig <= MAX
 	 */
-	public static boolean coordonnees_valides(Coord coord){
+	public static boolean coordonneesValides(Coord coord){
 		boolean ret = false;
 		ret = ( (coord.colonne< 'a' + MAX) && 
 				(coord.colonne>= 'a') && 

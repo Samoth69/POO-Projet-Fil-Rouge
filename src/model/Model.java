@@ -1,9 +1,9 @@
 package model;
 
 
-import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 import controller.OutputModelData;
@@ -58,6 +58,7 @@ public class Model implements BoardGame<Coord> {
         Coord toCapturePieceCoord = null;
         Coord toPromotePieceCoord = null;
         PieceSquareColor toPromotePieceColor = null;
+        PieceSquareColor toMovePieceColor = null;
 
         // Si la pièce est déplaçable (couleur du joueur courant et case arrivée disponible)
         if (this.isPieceMoveable(toMovePieceCoord, targetSquareCoord)) {
@@ -90,10 +91,9 @@ public class Model implements BoardGame<Coord> {
 
                     // S'il n'y a pas eu de prise
                     // ou si une rafle n'est pas possible alors changement de joueur
-                    if (!isTherePieceAroundToCapture(targetSquareCoord)) {    // TODO : Test à changer atelier 4
+                    if (!isPionACapturer(implementor.findPiece(targetSquareCoord))) {    // TODO : Test à changer atelier 4
                         this.switchGamer();
                     }
-
                 }
             }
         }
@@ -124,7 +124,7 @@ public class Model implements BoardGame<Coord> {
 
         bool = this.implementor.isPiecehere(toMovePieceCoord)
                 && this.implementor.getPieceColor(toMovePieceCoord) == this.currentGamerColor
-                && Coord.coordonnees_valides(targetSquareCoord)
+                && Coord.coordonneesValides(targetSquareCoord)
                 && !this.implementor.isPiecehere(targetSquareCoord);
 
         return bool;
@@ -181,18 +181,6 @@ public class Model implements BoardGame<Coord> {
     }
 
     /**
-     * Vérifie si des pions du joueur opposé peuvent être capturé à partir des coordonnées fourni
-     *
-     * @param pos Position de départ du pion
-     * @return true s'il y a une pièce à capturer autour
-     * false si aucune pièce ne peux être capturé
-     */
-    private boolean isTherePieceAroundToCapture(Coord pos) {
-        // TODO
-        return false;
-    }
-
-    /**
      * @param isPieceToCapture
      * @return true si le déplacement est légal
      * (s'effectue en diagonale, avec ou sans prise)
@@ -228,5 +216,34 @@ public class Model implements BoardGame<Coord> {
         return this.implementor.isPiecehere(target);
     }
 
-
+    private boolean isPionACapturer(PieceModel pm) {
+        //TODO
+//        Collection<PieceModel> potentialPawn = new HashSet<>();
+//        for (Coord c : pm.getValidCoords()){
+//            if (isPieceHere(c)) {
+//                potentialPawn.add(implementor.findPiece(c));
+//            }
+//        }
+//
+//        PieceModel center = pm;
+//
+//        for (PieceModel pm : potentialPawn) {
+//
+//        }
+//
+//        for (int i = 1; i < ModelConfig.LENGTH; i++) {
+//            Coord[] coords = {
+//                    new Coord((char) (pm.getColonne() - i), pm.getLigne() - i),
+//                    new Coord((char) (pm.getColonne() - i), pm.getLigne() + i),
+//                    new Coord((char) (pm.getColonne() + i), pm.getLigne() - i),
+//                    new Coord((char) (pm.getColonne() + i), pm.getLigne() + i),
+//            };
+//            for (int tbi = 0; tbi < 4 && Coord.coordonneesValides(coords[tbi]); tbi++)
+//            {
+//                Coord c = coords[i];
+//                if ()
+//            }
+//        }
+        return false;
+    }
 }

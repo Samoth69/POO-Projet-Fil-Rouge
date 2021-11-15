@@ -26,9 +26,9 @@ public class TestModel1 {
 		System.out.println("c1 = " + c1);	// c1 = [7,a]
 		System.out.println("c2 = " + c2);	// c2 = [3,b]
 
-		System.out.println("coord valides ('a',7) ? "+ Coord.coordonnees_valides(c1));		//true
-		System.out.println("coord valides ('w',9) ? "+ Coord.coordonnees_valides(new Coord('w',9)));	//false
-		System.out.println("coord valides ('b',11) ? "+ Coord.coordonnees_valides(new Coord('b',11) ));	//false
+		System.out.println("coord valides ('a',7) ? "+ Coord.coordonneesValides(c1));		//true
+		System.out.println("coord valides ('w',9) ? "+ Coord.coordonneesValides(new Coord('w',9)));	//false
+		System.out.println("coord valides ('b',11) ? "+ Coord.coordonneesValides(new Coord('b',11) ));	//false
 		System.out.println("c1.equals(c2) ? "+ c1.equals(c2));	// false
 		System.out.println("c1.equals(new Coord('a', 7)) ? "+ c1.equals(new Coord('a', 7)));	// true
 		System.out.println("c1.equals(new String(\"Erreur\")) ? "+ c1.equals(new String("Erreur")));	// false

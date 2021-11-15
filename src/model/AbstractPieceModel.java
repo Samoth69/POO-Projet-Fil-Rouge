@@ -1,8 +1,8 @@
 package model;
 
-import launcher.Launcher;
 import nutsAndBolts.PieceSquareColor;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -88,6 +88,13 @@ public abstract class AbstractPieceModel implements PieceModel {
 
         return coordsOnItinery;
     }
+
+    /**
+     * Return the list of coords that the pawn **COULD** move to
+     * It's doesn't check if a pawn is already at a coord
+     * @return list of coord that the pawn can move to
+     */
+    public abstract Collection<Coord> getValidCoords();
 
     @Override
     public int compareTo(PieceModel o) {

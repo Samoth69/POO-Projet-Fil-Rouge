@@ -1,6 +1,7 @@
 package model;
 
 
+import java.util.Collection;
 import java.util.List;
 
 import nutsAndBolts.PieceSquareColor;
@@ -46,6 +47,6 @@ public interface PieceModel extends Comparable<PieceModel> {
 	 */
 	List<Coord> getCoordsOnItinerary(Coord targetCoord);
 
-	
+	Collection<Coord> getValidCoords();
 }
 

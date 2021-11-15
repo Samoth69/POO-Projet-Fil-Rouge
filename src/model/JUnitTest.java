@@ -1,9 +1,5 @@
 package model;
 
-import model.Coord;
-import model.ModelImplementor;
-import model.PawnModel;
-import model.PieceModel;
 import nutsAndBolts.PieceSquareColor;
 import org.junit.jupiter.api.Test;
 
@@ -22,9 +18,9 @@ class JUnitTest {
         Coord c1 = new Coord('a', 7);
         Coord c2 = new Coord('b', 3);
 
-        assertTrue(Coord.coordonnees_valides(c1));
-        assertFalse(Coord.coordonnees_valides(new Coord('w', 9)));
-        assertFalse(Coord.coordonnees_valides(new Coord('b', 11)));
+        assertTrue(Coord.coordonneesValides(c1));
+        assertFalse(Coord.coordonneesValides(new Coord('w', 9)));
+        assertFalse(Coord.coordonneesValides(new Coord('b', 11)));
         assertNotEquals(c1, c2);
         assertEquals(c1, new Coord('a', 7));
         assertNotEquals(c1, new String("Erreur"));
@@ -77,6 +73,8 @@ class JUnitTest {
         assertTrue(li.contains(new Coord('c', 7)));
         assertTrue(li.contains(new Coord('d', 8)));
         assertTrue(li.contains(new Coord('e', 9)));
+
+        assertEquals(4, pieceModel2.getValidCoords().size());
     }
 
     @org.junit.jupiter.api.Test
@@ -171,5 +169,18 @@ class JUnitTest {
 
         assertTrue(qmw.isMoveOk(new Coord('e', 10), true));
         assertTrue(qmw.isMoveOk(new Coord('i', 6), true));
+
+        assertEquals(15, qmb.getValidCoords().size());
+    }
+
+    @Test
+    void testPieceSquareColor()
+    {
+        //check if GetNext work as expected,
+        PieceSquareColor psc = PieceSquareColor.BLACK;
+        assertEquals(psc.getNext(), PieceSquareColor.WHITE);
+
+        psc = PieceSquareColor.WHITE;
+        assertEquals(psc.getNext(), PieceSquareColor.BLACK);
     }
 }
