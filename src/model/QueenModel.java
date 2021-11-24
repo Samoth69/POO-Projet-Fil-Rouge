@@ -50,7 +50,7 @@ public class QueenModel extends AbstractPieceModel {
 
 
         for (Coord c : cache) {
-            if (Coord.coordonneesValides(c)) {
+            if (Coord.isValidCoords(c)) {
                 ret.add(c);
             }
         }

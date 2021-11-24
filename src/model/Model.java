@@ -2,9 +2,9 @@ package model;
 
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import controller.OutputModelData;
 import nutsAndBolts.PieceSquareColor;
@@ -69,10 +69,14 @@ public class Model implements BoardGame<Coord> {
                 //Recherche coord de l'éventuelle pièce à prendre
                 toCapturePieceCoord = this.getToCapturePieceCoord(toMovePieceCoord, targetSquareCoord);
 
-                // si le déplacement est légal (en diagonale selon algo pion ou dame)
+                //vrai si une pièce à été capturé par l'utilisateur
                 boolean isPieceToCapture = toCapturePieceCoord != null;
-                if (this.isMovePiecePossible(toMovePieceCoord, targetSquareCoord, isPieceToCapture)) {
 
+                HashSet<Coord> potentialPawnToCapture = new HashSet<>(isPionACapturer(toMovePieceCoord));
+
+                // s'il n'y a pas de pion à capturer
+                // ou qu'il y a un pion à capturer que l'utilisateur à choisi
+                if (potentialPawnToCapture.size() == 0 || potentialPawnToCapture.contains(toCapturePieceCoord)) {
                     // déplacement effectif de la pièce
                     this.movePiece(toMovePieceCoord, targetSquareCoord);
                     isMoveDone = true;
@@ -89,10 +93,11 @@ public class Model implements BoardGame<Coord> {
                         }
                     }
 
-                    // S'il n'y a pas eu de prise
-                    // ou si une rafle n'est pas possible alors changement de joueur
-                    if (!isPionACapturer(implementor.findPiece(targetSquareCoord))) {    // TODO : Test à changer atelier 4
+                    HashSet<Coord> pawnOnDest = new HashSet<>(isPionACapturer(targetSquareCoord));
+                    pawnOnDest.remove(toCapturePieceCoord);
+                    if (!isPieceToCapture || pawnOnDest.size() <= 0) {
                         this.switchGamer();
+                        System.out.println("SWITCH GAMER");
                     }
                 }
             }
@@ -124,7 +129,7 @@ public class Model implements BoardGame<Coord> {
 
         bool = this.implementor.isPiecehere(toMovePieceCoord)
                 && this.implementor.getPieceColor(toMovePieceCoord) == this.currentGamerColor
-                && Coord.coordonneesValides(targetSquareCoord)
+                && Coord.isValidCoords(targetSquareCoord)
                 && !this.implementor.isPiecehere(targetSquareCoord);
 
         return bool;
@@ -216,34 +221,53 @@ public class Model implements BoardGame<Coord> {
         return this.implementor.isPiecehere(target);
     }
 
-    private boolean isPionACapturer(PieceModel pm) {
-        //TODO
-//        Collection<PieceModel> potentialPawn = new HashSet<>();
-//        for (Coord c : pm.getValidCoords()){
-//            if (isPieceHere(c)) {
-//                potentialPawn.add(implementor.findPiece(c));
-//            }
-//        }
-//
-//        PieceModel center = pm;
-//
-//        for (PieceModel pm : potentialPawn) {
-//
-//        }
-//
-//        for (int i = 1; i < ModelConfig.LENGTH; i++) {
-//            Coord[] coords = {
-//                    new Coord((char) (pm.getColonne() - i), pm.getLigne() - i),
-//                    new Coord((char) (pm.getColonne() - i), pm.getLigne() + i),
-//                    new Coord((char) (pm.getColonne() + i), pm.getLigne() - i),
-//                    new Coord((char) (pm.getColonne() + i), pm.getLigne() + i),
-//            };
-//            for (int tbi = 0; tbi < 4 && Coord.coordonneesValides(coords[tbi]); tbi++)
-//            {
-//                Coord c = coords[i];
-//                if ()
-//            }
-//        }
-        return false;
+    /**
+     * Cherche si un pion autour de la source peut être capturé
+     *
+     * @param source point de départ
+     * @return coordonnées du ou des pions à capturer aux alentours
+     */
+    public Set<Coord> isPionACapturer(Coord source) {
+        HashSet<Coord> ret = new HashSet<>();
+        Coord[] pts = new Coord[]{
+                new Coord((char) (source.getColonne() - 1), source.getLigne() - 1),
+                new Coord((char) (source.getColonne() - 1), source.getLigne() + 1),
+                new Coord((char) (source.getColonne() + 1), source.getLigne() - 1),
+                new Coord((char) (source.getColonne() + 1), source.getLigne() + 1),
+        };
+
+        int orientation = 0;
+
+        for (Coord c : pts) {
+            if (c.isValidCoords()) {
+                if (implementor.isPiecehere(c)) {
+                    Coord nextCoord;
+                    PieceModel pm = implementor.findPiece(c);
+
+                    if (pm.getPieceColor() != currentGamerColor) {
+                        switch (orientation) {
+                            case 0 -> nextCoord = new Coord((char) (c.getColonne() - 1), c.getLigne() - 1);
+                            case 1 -> nextCoord = new Coord((char) (c.getColonne() - 1), c.getLigne() + 1);
+                            case 2 -> nextCoord = new Coord((char) (c.getColonne() + 1), c.getLigne() - 1);
+                            case 3 -> nextCoord = new Coord((char) (c.getColonne() + 1), c.getLigne() + 1);
+                            default -> throw new IllegalStateException("Unexpected value: " + orientation);
+                        }
+                        // si les coords sont valides
+                        // ET que cette coord est vide (pas de pion à cet endroit)
+                        if (nextCoord.isValidCoords() && !implementor.isPiecehere(nextCoord)) {
+                            ret.add(c);
+                        }
+                    }
+
+                }
+            }
+            orientation++;
+        }
+
+        return ret;
+    }
+
+    public PieceSquareColor getCurrentGamerColor() {
+        return currentGamerColor;
     }
 }

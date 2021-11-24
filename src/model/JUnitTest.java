@@ -3,36 +3,55 @@ package model;
 import nutsAndBolts.PieceSquareColor;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class JUnitTest {
 
-    /*@org.junit.jupiter.api.Test
-    void getCoordsOnItinerary() {
-    }*/
+    @Test
+    void testPieceSquareColor()
+    {
+        assertNotEquals(PieceSquareColor.WHITE, PieceSquareColor.BLACK);
 
-    @org.junit.jupiter.api.Test
+        //check if GetNext work as expected,
+        PieceSquareColor psc = PieceSquareColor.BLACK;
+        assertEquals(psc.getNext(), PieceSquareColor.WHITE);
+
+        psc = PieceSquareColor.WHITE;
+        assertEquals(psc.getNext(), PieceSquareColor.BLACK);
+    }
+
+    @Test
     void testCoord() {
         Coord c1 = new Coord('a', 7);
         Coord c2 = new Coord('b', 3);
 
-        assertTrue(Coord.coordonneesValides(c1));
-        assertFalse(Coord.coordonneesValides(new Coord('w', 9)));
-        assertFalse(Coord.coordonneesValides(new Coord('b', 11)));
+        assertTrue(Coord.isValidCoords(c1));
+        assertFalse(Coord.isValidCoords(new Coord('w', 9)));
+        assertFalse(Coord.isValidCoords(new Coord('b', 11)));
         assertNotEquals(c1, c2);
         assertEquals(c1, new Coord('a', 7));
         assertNotEquals(c1, new String("Erreur"));
         assertTrue(c1.compareTo(c2) < 0);
         assertEquals(0, c1.compareTo(new Coord('a', 7)));
+        assertEquals(c1, new Coord('a', 7));
+        assertNotEquals(c1, new Coord('f', 12));
+        assertNotEquals(c1.hashCode(), c2.hashCode());
+        assertEquals(c1.hashCode(), new Coord('a', 7).hashCode());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void testPawnModel() {
         PieceModel pieceModel1 = new PawnModel(new Coord('a', 7), PieceSquareColor.BLACK);
         PieceModel pieceModel2 = new PawnModel(new Coord('b', 4), PieceSquareColor.WHITE);
         PieceModel pieceModel3 = new PawnModel(new Coord('e', 7), PieceSquareColor.BLACK);
+
+        assertTrue(pieceModel1.hasThisCoord(new Coord('a', 7)));
+        assertTrue(pieceModel2.hasThisCoord(new Coord('b', 4)));
+        assertTrue(pieceModel3.hasThisCoord(new Coord('e', 7)));
 
         pieceModel1.move(new Coord('b', 6));
 
@@ -75,9 +94,18 @@ class JUnitTest {
         assertTrue(li.contains(new Coord('e', 9)));
 
         assertEquals(4, pieceModel2.getValidCoords().size());
+
+        assertNotEquals(pieceModel1, pieceModel2);
+        assertNotEquals(pieceModel2, pieceModel3);
+        assertNotEquals(pieceModel1, pieceModel3);
+
+        PieceModel pieceModel4 = new PawnModel(new Coord('d', 6), PieceSquareColor.BLACK);
+        assertEquals(pieceModel3, pieceModel4);
+        assertNotEquals(pieceModel1, pieceModel4);
+        assertNotEquals(pieceModel2, pieceModel4);
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void testModelImplementor() {
         ModelImplementor modelImpl = new ModelImplementor();
         PieceModel pm;
@@ -96,9 +124,12 @@ class JUnitTest {
 
         assertTrue(modelImpl.isMovePieceOk(new Coord('b', 4), new Coord('c', 5), false));
         assertTrue(modelImpl.movePiece(new Coord('b', 4), new Coord('c', 5)));
+
+        assertTrue(modelImpl.removePiece(new Coord(pm)));
+        assertNull(modelImpl.findPiece(new Coord(pm)));
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void testModel() {
         Model model = new Model();    // constructeur crée model et l'affiche
 
@@ -121,15 +152,23 @@ class JUnitTest {
         // normalement elle doit être fonctionnelle sans modification si vous avez bien testé tout ce qui précède
         model = new Model();
 
+        assertEquals(PieceSquareColor.WHITE, model.getCurrentGamerColor());
         model.moveCapturePromote(new Coord('b', 4), new Coord('c', 5));
         assertTrue(model.isPieceHere(new Coord('c', 5)));
 
+        assertEquals(PieceSquareColor.BLACK, model.getCurrentGamerColor());
         model.moveCapturePromote(new Coord('e', 7), new Coord('d', 6));
         assertTrue(model.isPieceHere(new Coord('d', 6)));
 
+        assertEquals(PieceSquareColor.WHITE, model.getCurrentGamerColor());
         // sachant que les deux moveCapturePromote ci-dessous ne doivent pas fonctionner,
         // le tostring qui affiche le tableau du model ne dois pas bouger
         String before = model.toString();
+
+        ArrayList<Coord> setPionACapturer = new ArrayList<>(model.isPionACapturer(new Coord('c', 5)));
+
+        assertEquals(1, setPionACapturer.size());
+        assertEquals(new Coord('d', 6), setPionACapturer.get(0));
 
         // vérifie si les pions noir et blanc sont bien présent dans la sortie.
         // si le test bloque ici, vérifier que la fonction tostring de Model affiche
@@ -137,11 +176,14 @@ class JUnitTest {
         assertTrue(before.contains("B"));
         assertTrue(before.contains("N"));
 
+        assertEquals(PieceSquareColor.WHITE, model.getCurrentGamerColor());
+
         model.moveCapturePromote(new Coord('c', 5), new Coord('e', 7));
         assertNotEquals(before, model.toString());
 
+        before = model.toString();
         model.moveCapturePromote(new Coord('h', 4), new Coord('h', 5));
-        assertNotEquals(before, model.toString());
+        assertEquals(before, model.toString());
     }
 
     @Test
@@ -171,16 +213,5 @@ class JUnitTest {
         assertTrue(qmw.isMoveOk(new Coord('i', 6), true));
 
         assertEquals(15, qmb.getValidCoords().size());
-    }
-
-    @Test
-    void testPieceSquareColor()
-    {
-        //check if GetNext work as expected,
-        PieceSquareColor psc = PieceSquareColor.BLACK;
-        assertEquals(psc.getNext(), PieceSquareColor.WHITE);
-
-        psc = PieceSquareColor.WHITE;
-        assertEquals(psc.getNext(), PieceSquareColor.BLACK);
     }
 }

@@ -55,7 +55,7 @@ public class PawnModel extends AbstractPieceModel implements Promotable {
 
         for (Coord c : coords)
         {
-            if (Coord.coordonneesValides(c))
+            if (Coord.isValidCoords(c))
             {
                 ret.add(c);
             }

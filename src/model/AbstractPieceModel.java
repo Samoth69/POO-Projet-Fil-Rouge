@@ -122,19 +122,6 @@ public abstract class AbstractPieceModel implements PieceModel {
     }
 
     @Override
-    public int hashCode() {
-        int ret;
-
-        ret = this.getColonne();
-        ret *= 100; //un char vaut au max 3 chiffres
-        ret += this.getLigne();
-        ret *= ModelConfig.LENGTH;
-        ret += this.getPieceColor() == PieceSquareColor.WHITE ? 1 : 2;
-
-        return ret;
-    }
-
-    @Override
     public String toString() {
         return "AbstractPieceModel{" +
                 "coord=" + coord +

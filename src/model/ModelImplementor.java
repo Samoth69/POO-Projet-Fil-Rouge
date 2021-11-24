@@ -2,8 +2,7 @@ package model;
 
 import nutsAndBolts.PieceSquareColor;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author francoise.perrin
@@ -19,12 +18,13 @@ import java.util.List;
 public class ModelImplementor {
 
     // la collection de pi�ces en jeu - m�lange noires et blanches
-    private final Collection<PieceModel> pieces;
+    //private final Collection<PieceModel> pieces;
+    private final HashSet<PieceModel> pieces;
 
     public ModelImplementor() {
         super();
 
-        pieces = ModelFactory.createPieceModelCollection();
+        pieces = new HashSet<>(ModelFactory.createPieceModelCollection());
     }
 
     public PieceSquareColor getPieceColor(Coord coord) {
@@ -38,7 +38,17 @@ public class ModelImplementor {
     }
 
     public boolean isPiecehere(Coord coord) {
-        return this.findPiece(coord) != null;
+        boolean found = false;
+
+        for (PieceModel pm : pieces) {
+            if (pm.hasThisCoord(coord))
+            {
+                found = true;
+                break;
+            }
+        }
+
+        return found;
     }
 
     public boolean isMovePieceOk(Coord initCoord, Coord targetCoord, boolean isPieceToTake) {
@@ -65,17 +75,22 @@ public class ModelImplementor {
         return isMovePieceDone;
     }
 
-    public void removePiece(Coord pieceToTakeCoord) {
+    /**
+     * Remove the specified element by its Coord object
+     * @param pieceToTakeCoord cCord to find and remove
+     * @return true if an object from the list was removed
+     */
+    public boolean removePiece(Coord pieceToTakeCoord) {
         PieceModel toRemove = null;
 
-        for (PieceModel pm : this.pieces) {
+        for (PieceModel pm : pieces) {
             if (pm.hasThisCoord(pieceToTakeCoord)) {
                 toRemove = pm;
                 break;
             }
         }
 
-        pieces.remove(toRemove);
+        return pieces.remove(toRemove);
     }
 
     public void promote(Coord coord) {
