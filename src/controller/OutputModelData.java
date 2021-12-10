@@ -2,6 +2,7 @@ package controller;
 
 import java.io.Serializable;
 
+import com.google.gson.annotations.Expose;
 import nutsAndBolts.PieceSquareColor;
 
 /**
@@ -15,20 +16,32 @@ import nutsAndBolts.PieceSquareColor;
 public class OutputModelData<T> implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
-	
+
+	@Expose
 	public boolean isMoveDone = false;
+
+	@Expose
+	public T toMovePieceIndex = null;
+
+	@Expose
+	public T targetSquareIndex = null;
+
 	public T capturedPieceCoord = null;
 	public T promotedPieceCoord = null;
 	public PieceSquareColor promotedPieceColor = null;
 	
 	
 	public OutputModelData(
-			boolean isMoveDone, 
+			boolean isMoveDone,
+			T toMovePieceIndex,
+			T targetSquareIndex,
 			T capturedPieceCoord,
 			T promotedPieceCoord,
 			PieceSquareColor promotedPieceColor) {
 		super();
 		this.isMoveDone = isMoveDone;
+		this.toMovePieceIndex = toMovePieceIndex;
+		this.targetSquareIndex = targetSquareIndex;
 		this.capturedPieceCoord = capturedPieceCoord;
 		this.promotedPieceCoord = promotedPieceCoord;
 		this.promotedPieceColor = promotedPieceColor;

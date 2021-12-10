@@ -12,6 +12,10 @@ import model.ModelConfig;
 import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import nutsAndBolts.NetworkMessage;
+import nutsAndBolts.PieceSquareColor;
+
+import java.io.IOException;
 
 
 /**
@@ -30,9 +34,9 @@ import javafx.scene.input.MouseEvent;
  */
 public class Controller implements Mediator, BoardGame<Integer>, EventHandler<MouseEvent> {
 
-
     private BoardGame<Coord> model;
     private View view;
+    private Network net;
 
     // Cette valeur est MAJ chaque fois que l'utilisateur clique sur une pi�ce
     // Elle doit �tre conserv�e pour �tre utilis�e lorsque l'utilisateur clique sur une case
@@ -64,6 +68,11 @@ public class Controller implements Mediator, BoardGame<Integer>, EventHandler<Mo
 
     public void setModel(BoardGame<Coord> model) {
         this.model = model;
+    }
+
+    public void setNetwork(Network n) {
+        this.net = n;
+        this.net.setController(this);
     }
 
     ////////////////////////////////////////////////////////////////////
@@ -104,7 +113,7 @@ public class Controller implements Mediator, BoardGame<Integer>, EventHandler<Mo
     /**
      * @param mouseEvent Ecoute les �v�nements sur les SquareGui
      */
-    private void checkersSquareGuiHandle(MouseEvent mouseEvent) {
+    private void checkersSquareGuiHandle(MouseEvent mouseEvent) throws IOException {
 
         // Recherche SquareGUI s�lectionn�
         CheckersSquareGui square = (CheckersSquareGui) mouseEvent.getSource();
@@ -113,7 +122,10 @@ public class Controller implements Mediator, BoardGame<Integer>, EventHandler<Mo
         // Le controller va invoquer la m�thode moveCapturePromotion() du model
         // et si le model confirme que la pi�ce a bien �t� d�plac�e �cet endroit,
         // il invoquera une m�thode de la view pour la rafraichir
-        this.moveCapturePromote(this.getToMovePieceIndex(), targetSquareIndex);
+        OutputModelData<Integer> out = this.moveCapturePromote(this.getToMovePieceIndex(), targetSquareIndex);
+        if (out.isMoveDone) {
+            net.sendMsg(NetworkMessage.MsgType.MoveCapturePromote, null, out);
+        }
 
         // il n'y a plus de pi�ce � d�placer
         this.setToMovePieceIndex(-1);
@@ -137,17 +149,10 @@ public class Controller implements Mediator, BoardGame<Integer>, EventHandler<Mo
      * pour rafraichir affichage en fonction des donn�es retourn�es par le model
      */
     @Override
-    public OutputModelData<Integer> moveCapturePromote(Integer toMovePieceIndex, Integer targetSquareIndex) {
+    public synchronized OutputModelData<Integer> moveCapturePromote(Integer toMovePieceIndex, Integer targetSquareIndex) {
 
         OutputModelData<Integer> ret = null;
         OutputModelData<Coord> outputModelData = model.moveCapturePromote(transformIndexToCoord(toMovePieceIndex), transformIndexToCoord(targetSquareIndex));
-
-//        outputModelData = new OutputModelData<>(
-//                omd.isMoveDone,
-//                transformCoordToIndex(omd.capturedPieceCoord),
-//                transformCoordToIndex(omd.promotedPieceCoord),
-//                omd.promotedPieceColor
-//        );
 
         if (outputModelData.isMoveDone) {
             InputViewData<Integer> ivd = new InputViewData<>(
@@ -161,8 +166,26 @@ public class Controller implements Mediator, BoardGame<Integer>, EventHandler<Mo
             view.actionOnGui(ivd);
         }
 
-        // Inutile de reconstituer un objetOutputModelData<Integer>, aucun client ne le r�cup�re en mode local
+        ret = new OutputModelData<>(
+                outputModelData.isMoveDone,
+                toMovePieceIndex,
+                targetSquareIndex,
+                transformCoordToIndex(outputModelData.capturedPieceCoord),
+                transformCoordToIndex(outputModelData.promotedPieceCoord),
+                outputModelData.promotedPieceColor
+        );
+
         return ret;
+    }
+
+    @Override
+    public void setCurrentGamerColor(PieceSquareColor currentGamerColor) {
+        this.model.setCurrentGamerColor(currentGamerColor);
+    }
+
+    @Override
+    public PieceSquareColor getCurrentGamerColor() {
+        return this.model.getCurrentGamerColor();
     }
 
 

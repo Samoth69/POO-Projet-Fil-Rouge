@@ -1,8 +1,11 @@
 package controller;
 
+import controller.localController.Network;
 import gui.View;
 import model.BoardGame;
 import model.Coord;
+
+import java.util.UUID;
 
 /**
  * @author francoise.perrin
@@ -11,7 +14,10 @@ import model.Coord;
  * 
  */
 public interface Mediator {
-	
-	public void setView(View view) ;
-	public void setModel(BoardGame<Coord> model) ;
+
+	UUID clientUUID = UUID.randomUUID();
+
+	void setView(View view) ;
+	void setModel(BoardGame<Coord> model) ;
+	void setNetwork(Network n);
 }

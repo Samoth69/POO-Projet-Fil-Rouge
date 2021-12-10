@@ -3,6 +3,7 @@ package launcher;
 
 import controller.Mediator;
 import controller.localController.Controller;
+import controller.localController.Network;
 import gui.GuiConfig;
 import gui.View;
 import model.BoardGame;
@@ -14,12 +15,16 @@ import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+import static java.lang.Thread.sleep;
 
-public class Launcher extends Application {
+
+public class Launcher extends Application implements IWindow {
 
     private BoardGame<Coord> model;
     private EventHandler<MouseEvent> controller;
     private View view;
+    private Network net;
+    private Stage stage;
 
     public static void main(String[] args) {
 
@@ -51,6 +56,9 @@ public class Launcher extends Application {
 
         this.view = new View(controller);
 
+        this.net = new Network();
+        this.net.setWindow(this);
+
         // Controller doit pouvoir invoquer les méthodes du model
         // il enverra ensuite des instructions à view qui relaiera à son objet Board
         // En mode Client/Server
@@ -58,15 +66,27 @@ public class Launcher extends Application {
         // sur celle qui a initié l'action
         ((Mediator) controller).setView(view);
         ((Mediator) controller).setModel(model);
+        ((Mediator) controller).setNetwork(net);
     }
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws InterruptedException {
         primaryStage.setScene(new Scene(this.view, GuiConfig.HEIGHT, GuiConfig.HEIGHT));
-        primaryStage.setTitle("Jeu de dames - Version Atelier 1");
+        primaryStage.setTitle("Jeu de dames - Version 42");
         primaryStage.show();
+        stage = primaryStage;
     }
 
+    @Override
+    public void stop() throws Exception {
+        super.stop();
+        net.stop();
+    }
 
+    @Override
+    public void setWindowTitle(String title) {
+        //this.stage.setTitle(title);
+        System.out.println(title);
+    }
 }
 

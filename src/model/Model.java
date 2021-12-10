@@ -107,6 +107,8 @@ public class Model implements BoardGame<Coord> {
         // Constitution objet de données avec toutes les infos nécessaires à la view
         outputModelData = new OutputModelData<Coord>(
                 isMoveDone,
+                toMovePieceCoord,
+                targetSquareCoord,
                 toCapturePieceCoord,
                 toPromotePieceCoord,
                 toPromotePieceColor);
@@ -269,5 +271,9 @@ public class Model implements BoardGame<Coord> {
 
     public PieceSquareColor getCurrentGamerColor() {
         return currentGamerColor;
+    }
+
+    public void setCurrentGamerColor(PieceSquareColor currentGamerColor) {
+        this.currentGamerColor = currentGamerColor;
     }
 }
