@@ -9,10 +9,12 @@ import model.BoardGame;
 import nutsAndBolts.NetworkMessage;
 import nutsAndBolts.PieceSquareColor;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 public class Network implements Runnable {
@@ -91,7 +93,7 @@ public class Network implements Runnable {
         }
     }
 
-    public void sendMsg(NetworkMessage.MsgType msgType, List<Integer> params, OutputModelData<Integer> omd) throws IOException {
+    public void sendMsg(NetworkMessage.MsgType msgType, ArrayList<Integer> params, OutputModelData<Integer> omd) throws IOException {
         NetworkMessage msg = new NetworkMessage(msgType, params, omd);
         out.write(gson.toJson(msg));
         out.write('\n');

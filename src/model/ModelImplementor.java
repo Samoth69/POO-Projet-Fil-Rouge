@@ -122,6 +122,9 @@ public class ModelImplementor {
         return findPiece;
     }
 
+    public HashSet<PieceModel> getPieces() {
+        return pieces;
+    }
 
     /* (non-Javadoc)
      * @see java.lang.Object#toString()

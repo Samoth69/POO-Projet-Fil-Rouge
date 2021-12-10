@@ -16,6 +16,8 @@ import nutsAndBolts.NetworkMessage;
 import nutsAndBolts.PieceSquareColor;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 
 /**
@@ -192,19 +194,18 @@ public class Controller implements Mediator, BoardGame<Integer>, EventHandler<Mo
         return this.model.getCurrentGamerColor();
     }
 
-
     /**
      * @param squareIndex index
      * @return les coordonn�es m�tier calcul�es � partir de l'index du SquareGUI sous la PieceGUI
      */
-    private static Coord transformIndexToCoord(int squareIndex) {
+    public static Coord transformIndexToCoord(int squareIndex) {
         int length = ModelConfig.LENGTH;
         char col = (char) ((squareIndex) % length + 'a');
         int ligne = length - (squareIndex) / length;
         return new Coord(col, ligne);
     }
 
-    private static int transformCoordToIndex(Coord coord) {
+    public static int transformCoordToIndex(Coord coord) {
         int squareIndex = -1;
         int length = ModelConfig.LENGTH;
         if (coord != null) {

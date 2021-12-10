@@ -20,7 +20,7 @@ public class NetworkMessage {
     private MsgType messageType;
 
     @Expose
-    private List<Integer> params;
+    private ArrayList<Integer> params;
 
     @Expose
     private OutputModelData<Integer> outputModelData;
@@ -30,7 +30,7 @@ public class NetworkMessage {
         this.senderUUID = Mediator.clientUUID;
     }
 
-    public NetworkMessage(MsgType messageType, List<Integer> params, OutputModelData<Integer> omd) {
+    public NetworkMessage(MsgType messageType, ArrayList<Integer> params, OutputModelData<Integer> omd) {
         this(messageType);
         if (params != null && params.size() > 0) {
             this.params = new ArrayList<>(params);
