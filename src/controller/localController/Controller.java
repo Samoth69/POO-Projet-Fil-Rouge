@@ -119,12 +119,16 @@ public class Controller implements Mediator, BoardGame<Integer>, EventHandler<Mo
         CheckersSquareGui square = (CheckersSquareGui) mouseEvent.getSource();
         int targetSquareIndex = square.getSquareCoord();
 
-        // Le controller va invoquer la m�thode moveCapturePromotion() du model
-        // et si le model confirme que la pi�ce a bien �t� d�plac�e �cet endroit,
-        // il invoquera une m�thode de la view pour la rafraichir
-        OutputModelData<Integer> out = this.moveCapturePromote(this.getToMovePieceIndex(), targetSquareIndex);
-        if (out.isMoveDone) {
-            net.sendMsg(NetworkMessage.MsgType.MoveCapturePromote, null, out);
+        // vérifie si c'est bien à nous de jouer et non à l'adversaire
+        if (this.net.getOpponentColor() != this.getCurrentGamerColor())
+        {
+            // Le controller va invoquer la m�thode moveCapturePromotion() du model
+            // et si le model confirme que la pi�ce a bien �t� d�plac�e �cet endroit,
+            // il invoquera une m�thode de la view pour la rafraichir
+            OutputModelData<Integer> out = this.moveCapturePromote(this.getToMovePieceIndex(), targetSquareIndex);
+            if (out.isMoveDone) {
+                net.sendMsg(NetworkMessage.MsgType.MoveCapturePromote, null, out);
+            }
         }
 
         // il n'y a plus de pi�ce � d�placer
