@@ -6,6 +6,7 @@ import controller.localController.Controller;
 import controller.localController.Network;
 import gui.GuiConfig;
 import gui.View;
+import javafx.application.Platform;
 import model.BoardGame;
 import model.Coord;
 import model.Model;
@@ -85,8 +86,7 @@ public class Launcher extends Application implements IWindow {
 
     @Override
     public void setWindowTitle(String title) {
-        //this.stage.setTitle(title);
-        System.out.println(title);
+        Platform.runLater(() -> stage.setTitle(title));
     }
 }
 

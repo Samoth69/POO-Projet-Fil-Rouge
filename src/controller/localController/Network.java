@@ -53,16 +53,16 @@ public class Network implements Runnable {
 
             while (!stop) {
                 NetworkMessage msg = gson.fromJson(in.readLine(), NetworkMessage.class);
-                if (opponentUUID != null && msg.getSenderUUID() != opponentUUID) {
+                if (opponentUUID != null && !msg.getSenderUUID().equals(opponentUUID)) {
                     continue;
                 }
                 switch (msg.getMessageType()) {
                     case Color -> {
                         if (msg.getParams().get(0) == this.controller.getCurrentGamerColor().toInt()) {
-                            this.controller.setCurrentGamerColor(PieceSquareColor.fromInt(msg.getParams().get(0)).getNext());
-                            System.out.println("we are " + this.controller.getCurrentGamerColor().toString());
-                            updateWindowTitle(this.controller.getCurrentGamerColor());
-                            opponentColor = this.controller.getCurrentGamerColor().getNext();
+                            //this.controller.setCurrentGamerColor(PieceSquareColor.fromInt(msg.getParams().get(0)).getNext());
+                            System.out.println("we are " + this.controller.getCurrentGamerColor().getNext().toString());
+                            updateWindowTitle(this.controller.getCurrentGamerColor().getNext());
+                            opponentColor = this.controller.getCurrentGamerColor();
                             sendMsg(NetworkMessage.MsgType.ColorACK, null, null);
                             continue;
                         }
@@ -81,11 +81,7 @@ public class Network implements Runnable {
                     case MoveCapturePromote -> {
                         OutputModelData<Integer> omd = msg.getOutputModelData();
                         if (omd.isMoveDone) {
-                            if (opponentColor != this.controller.getCurrentGamerColor())
-                            {
-                                this.controller.setCurrentGamerColor(opponentColor);
-                                Platform.runLater(() -> controller.moveCapturePromote(omd.toMovePieceIndex, omd.targetSquareIndex));
-                            }
+                            Platform.runLater(() -> controller.moveCapturePromote(omd.toMovePieceIndex, omd.targetSquareIndex));
                         }
                     }
                 }
@@ -128,5 +124,13 @@ public class Network implements Runnable {
                 this.window.setWindowTitle("Jeu de dames - Joueur Noir");
             }
         }
+    }
+
+    public PieceSquareColor getOpponentColor() {
+        return opponentColor;
+    }
+
+    public PieceSquareColor getThisPlayerColor() {
+        return opponentColor.getNext();
     }
 }
