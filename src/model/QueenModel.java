@@ -26,7 +26,9 @@ public class QueenModel extends AbstractPieceModel {
         if (isPieceToCapture)
             dif = 2;
 
-        if (Math.abs(targetCoord.getColonne() - this.getColonne()) >= dif && Math.abs(targetCoord.getLigne() - this.getLigne()) >= dif) {
+        int difCol = Math.abs(targetCoord.getColonne() - this.getColonne());
+        int difLigne = Math.abs(targetCoord.getLigne() - this.getLigne());
+        if (difCol == difLigne && difCol >= dif && difLigne >= dif) {
             ret = true;
         }
 

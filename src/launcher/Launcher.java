@@ -16,8 +16,6 @@ import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-import static java.lang.Thread.sleep;
-
 
 public class Launcher extends Application implements IWindow {
 

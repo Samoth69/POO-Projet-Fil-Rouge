@@ -76,32 +76,36 @@ public class Model implements BoardGame<Coord> {
 
                 HashSet<Coord> potentialPawnToCapture = new HashSet<>(isPionACapturer(toMovePieceCoord));
 
-                // s'il n'y a pas de pion à capturer
-                // ou qu'il y a un pion à capturer que l'utilisateur à choisi
-                if (potentialPawnToCapture.size() == 0 || potentialPawnToCapture.contains(toCapturePieceCoord)) {
-                    // déplacement effectif de la pièce
-                    this.movePiece(toMovePieceCoord, targetSquareCoord);
-                    isMoveDone = true;
+                if (this.isMovePiecePossible(toMovePieceCoord, targetSquareCoord, potentialPawnToCapture.size() > 0)) {
+                    // s'il n'y a pas de pion à capturer
+                    // ou qu'il y a un pion à capturer que l'utilisateur à choisi
+                    if (potentialPawnToCapture.size() == 0 || potentialPawnToCapture.contains(toCapturePieceCoord)) {
+                        // déplacement effectif de la pièce
+                        this.movePiece(toMovePieceCoord, targetSquareCoord);
+                        isMoveDone = true;
 
-                    // suppression effective de la pièce prise
-                    this.remove(toCapturePieceCoord);
+                        // suppression effective de la pièce prise
+                        this.remove(toCapturePieceCoord);
 
-                    // promotion éventuelle de la pièce après déplacement
-                    if (this.implementor.findPiece(targetSquareCoord) instanceof PawnModel pm) {
-                        if (pm.isPromotable()) {
-                            this.implementor.promote(new Coord(pm));
-                            toPromotePieceColor = pm.getPieceColor();
-                            toPromotePieceCoord = new Coord(pm);
+                        // promotion éventuelle de la pièce après déplacement
+                        if (this.implementor.findPiece(targetSquareCoord) instanceof PawnModel pm) {
+                            if (pm.isPromotable()) {
+                                this.implementor.promote(new Coord(pm));
+                                toPromotePieceColor = pm.getPieceColor();
+                                toPromotePieceCoord = new Coord(pm);
+                            }
+                        }
+
+                        HashSet<Coord> pawnOnDest = new HashSet<>(isPionACapturer(targetSquareCoord));
+                        pawnOnDest.remove(toCapturePieceCoord);
+                        if (!isPieceToCapture || pawnOnDest.size() <= 0) {
+                            this.switchGamer();
+                            System.out.println("SWITCH GAMER");
                         }
                     }
-
-                    HashSet<Coord> pawnOnDest = new HashSet<>(isPionACapturer(targetSquareCoord));
-                    pawnOnDest.remove(toCapturePieceCoord);
-                    if (!isPieceToCapture || pawnOnDest.size() <= 0) {
-                        this.switchGamer();
-                        System.out.println("SWITCH GAMER");
-                    }
                 }
+
+
             }
         }
         System.out.println(this);

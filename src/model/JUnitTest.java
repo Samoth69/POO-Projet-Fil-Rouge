@@ -213,5 +213,11 @@ class JUnitTest {
         assertTrue(qmw.isMoveOk(new Coord('i', 6), true));
 
         assertEquals(15, qmb.getValidCoords().size());
+
+        assertTrue(qmb.isMoveOk(new Coord('a', 1), true));
+        assertTrue(qmb.isMoveOk(new Coord('a', 1), false));
+
+        assertFalse(qmb.isMoveOk(new Coord('b', 1), true));
+        assertFalse(qmb.isMoveOk(new Coord('b', 1), false));
     }
 }
